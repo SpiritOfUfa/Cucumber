@@ -208,8 +208,13 @@ exports.config = {
      * @param {Array.<String>} specs        List of spec file paths that are to be run
      * @param {Object}         browser      instance of created browser/device session
      */
-    // before: function (capabilities, specs) {
-    // },
+    before: function (capabilities, specs) {
+        browser.addCommand('scrollToElement', async function() {
+            if (!(await this.isClickable()) && (await this.isExisting())){
+               await this.scrollIntoView();
+            }
+        },true)
+    },
     /**
      * Runs before a WebdriverIO command gets executed.
      * @param {String} commandName hook command name
